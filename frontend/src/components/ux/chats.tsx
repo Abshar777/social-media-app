@@ -1,0 +1,44 @@
+import { useEffect, useRef, useState } from "react";
+import img from "../../assets/download.jpg"
+import mdImg from "../../assets/New Project 155 [8944589].png"
+import ChatInput from "../ui/chatInput";
+import ChatNav from "../ui/chatNav";
+import Conversation from "./conversation";
+const Chats = () => {
+  const [arr,setArr]=useState([1,3,4,4,5,6,7]);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  
+  const scrollToBottom=()=>{  messagesEndRef.current?.scrollTo({
+    top: messagesEndRef.current?.scrollHeight,
+    behavior: 'smooth'
+})}
+useEffect(()=>{
+  if(messagesEndRef){
+  setTimeout(scrollToBottom, 1000);  
+  }
+})
+
+  return (
+    <div className="md:w-[80%] w-full flex flex-col justify-between h-[98%] overflow-x-scroll">
+      <div className=" w-full h-[4rem] border-b-[1px] ">
+        <ChatNav/>
+      </div>
+      <div className=" w-full Interface  relative overflow-hidden">
+          <img className="w-full block md:hidden invert absolute opacity-[.02]   object-cover " src={img} alt="" />
+          <img className="w-full h-full hidden md:block opacity-[.3] absolute   object-cover " src={mdImg} alt="" />
+        <div ref={messagesEndRef} className="w-full h-full overflow-y-scroll relative  ">
+          <Conversation fn={scrollToBottom} arr={arr}/>
+        </div>
+      </div>
+      <div className=" w-full h-[4rem] border-t-[1px] ">
+        <ChatInput/>
+      </div>
+      {/* <button onClick={()=>{
+        setArr([...arr,Math.floor(Math.random()*10)])
+    }} className="btn rounded-md p-[.1rem] mb-2 absolute bottom-0 bg-primary">create</button>
+    */}
+    </div>
+  );
+};
+
+export default Chats;
