@@ -1,11 +1,10 @@
 import {
-  animate,
   AnimatePresence,
   motion,
   useAnimationControls,
 } from "framer-motion";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import  { useState } from "react";
+
 
 const Replay = ({ own = false }: { own: boolean }) => {
   const arrowAnimation = useAnimationControls();

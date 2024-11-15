@@ -4,6 +4,7 @@ import Msg from "../chat/msg";
 import ImageMsg from "../chat/imageMsg";
 import Replay from "../chat/replay";
 import AudioMsg from "../chat/audioMsg";
+import DocMessage from "../chat/docMessage";
 
 const Conversation = ({ arr, fn }: { arr: number[]; fn: () => void }) => {
   return (
@@ -31,6 +32,7 @@ const Conversation = ({ arr, fn }: { arr: number[]; fn: () => void }) => {
       <Replay own={false}/>
      <AudioMsg own={!true}/>
      <AudioMsg own={true}/>
+     <DocMessage own={false}/>
     </div>
   );
 };
