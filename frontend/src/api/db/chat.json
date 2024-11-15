@@ -1,0 +1,77 @@
+{
+    "chats": [
+      {
+        "_id": "64b8c3b2f5a0b3a5c78d2a2a",
+        "members": [
+          {
+            "_id": "64b8c1b1f5a0b3a5c78d2a1a",
+            "name": "Alice Smith",
+            "email": "alice@example.com",
+            "isVerify": true,
+            "isBlock": false,
+            "img": "https://i.pinimg.com/564x/a1/2b/4c/a12b4c4efdbcf9a1e21702d755fa0b16.jpg",
+            "isAdmin": false
+          },
+          {
+            "_id": "64b8c1b2f5a0b3a5c78d2a1b",
+            "name": "Bob Jones",
+            "email": "bob@example.com",
+            "isVerify": true,
+            "isBlock": false,
+            "img": "https://i.pinimg.com/564x/bb/3a/5d/bb3a5d52c9ff39b2e117a3de4ffbfb63.jpg",
+            "isAdmin": false
+          }
+        ],
+        "latestMessageCount":0,
+        "chatName": "Project Team",
+        "isGroupChat": true,
+        "latestMessage": "64b8c3c2f5a0b3a5c78d2a2b",
+        "groupAdmins": [
+          {
+            "_id": "64b8c1b1f5a0b3a5c78d2a1a",
+            "name": "Alice Smith",
+            "email": "alice@example.com",
+            "isVerify": true,
+            "isBlock": false,
+            "img": "https://i.pinimg.com/1200x/94/1a/9e/941a9e753cc83aa5913bf7ede7701b96.jpg",
+            "isAdmin": false
+          }
+        ],
+        "groupImage": "https://i.pinimg.com/1200x/d5/d0/9e/d5d09e8a0c731a5f38a20280e799afb0.jpg",
+        "createdAt": "2024-11-10T14:12:23.000Z",
+        "updatedAt": "2024-11-10T16:45:12.000Z"
+      },
+      {
+        "_id": "64b8c3b2f5a0b3a5c78d2a2b",
+        "members": [
+          {
+            "_id": "64b8c1b3f5a0b3a5c78d2a1c",
+            "name": "Charlie Brown",
+            "email": "charlie@example.com",
+            "isVerify": true,
+            "isBlock": false,
+            "img": "https://i.pinimg.com/1200x/f3/94/e3/f394e38ff74066c3bba814e5eeba1b18.jpg",
+            "isAdmin": false
+          },
+          {
+            "_id": "64b8c1b4f5a0b3a5c78d2a1d",
+            "name": "David White",
+            "email": "david@example.com",
+            "isVerify": true,
+            "isBlock": false,
+            "img": "https://i.pinimg.com/564x/dd/5b/7e/dd5b7e3d5d5ff5b3bc6e5c5e7c0ff8c9.jpg",
+            "isAdmin": false
+          }
+        ],
+        "latestMessageCount":2,
+        "chatName": null,
+        "isGroupChat": false,
+        "latestMessage": "hi",
+        "groupAdmins": [],
+        "groupImage": null,
+        "createdAt": "2024-11-10T14:20:35.000Z",
+        "updatedAt": "2024-11-10T15:35:58.000Z"
+      }
+    ]
+  }
+  

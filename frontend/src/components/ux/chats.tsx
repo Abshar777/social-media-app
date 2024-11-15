@@ -19,18 +19,18 @@ useEffect(()=>{
 })
 
   return (
-    <div className="md:w-[80%] w-full flex flex-col justify-between h-[98%] overflow-x-scroll">
+    <div className="md:w-[80%] w-full flex flex-col justify-between h-[90%] md:h-[95%]  overflow-hidden">
       <div className=" w-full h-[4rem] border-b-[1px] ">
         <ChatNav/>
       </div>
       <div className=" w-full Interface  relative overflow-hidden">
           <img className="w-full block md:hidden invert absolute opacity-[.02]   object-cover " src={img} alt="" />
           <img className="w-full h-full hidden md:block opacity-[.3] absolute   object-cover " src={mdImg} alt="" />
-        <div ref={messagesEndRef} className="w-full h-full overflow-y-scroll relative  ">
+        <div ref={messagesEndRef} className="w-full   h-full overflow-y-scroll relative  ">
           <Conversation fn={scrollToBottom} arr={arr}/>
         </div>
       </div>
-      <div className=" w-full h-[4rem] border-t-[1px] ">
+      <div className=" w-full py-1 border-t-[1px] ">
         <ChatInput/>
       </div>
       {/* <button onClick={()=>{

@@ -1,0 +1,26 @@
+{
+    "chats": [
+        {
+          "_id": "64b8c3b2f5a0b3a5c78d2a2a",
+          "members": ["64b8c1b1f5a0b3a5c78d2a1a", "64b8c1b2f5a0b3a5c78d2a1b"],
+          "chatName": "Project Team",
+          "isGroupChat": true,
+          "latestMessage": "64b8c3c2f5a0b3a5c78d2a2b",
+          "groupAdmins": ["64b8c1b1f5a0b3a5c78d2a1a"],
+          "groupImage": "https://i.pinimg.com/1200x/fe/af/4e/feaf4e2c58bfa7874c1aa27b7440219e.jpg",
+          "createdAt": "2024-11-10T14:12:23.000Z",
+          "updatedAt": "2024-11-10T16:45:12.000Z"
+        },
+        {
+          "_id": "64b8c3b2f5a0b3a5c78d2a2b",
+          "members": ["64b8c1b3f5a0b3a5c78d2a1c", "64b8c1b4f5a0b3a5c78d2a1d"],
+          "chatName": null,
+          "isGroupChat": false,
+          "latestMessage": "64b8c3c2f5a0b3a5c78d2a2c",
+          "groupAdmins": [],
+          "groupImage": null,
+          "createdAt": "2024-11-10T14:20:35.000Z",
+          "updatedAt": "2024-11-10T15:35:58.000Z"
+        }
+      ]
+}

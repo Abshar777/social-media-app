@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import {
   DropdownMenu,
@@ -23,8 +23,20 @@ const ChatInput = () => {
     if (!showDropdown) addMotion.start("initial");
     else addMotion.start("animate");
   }, [showDropdown]);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  const handleInput = () => {
+    if (textareaRef.current) {
+      const textarea = textareaRef.current;
+      textarea.style.height = "auto";
+      textarea.style.height = `${Math.min(textarea.scrollHeight, 192)}px`;
+
+      (document.getElementById("chatBox") as HTMLDivElement).style.alignItems =
+        textarea.scrollHeight <= 35 ? "center" : "end";
+    }
+  };
   return (
-    <div className="w-full h-full flex px-3 items-center">
+    <div id="chatBox" className="w-full overflow-hidden  h-full flex px-1 items-center">
       <TooltipProvider delayDuration={0}>
         <Tooltip>
           <TooltipTrigger>
@@ -76,15 +88,18 @@ const ChatInput = () => {
           </TooltipContent>
         </Tooltip>
         <textarea
+          ref={textareaRef}
+          onInput={handleInput}
           value={chat}
           onChange={(e) => {
             setChat(e.target.value);
             if (e.target.value.trim()) setsend(true);
             else setsend(false);
           }}
+          rows={1}
           placeholder="message heare"
           name=""
-          className="resize-none w-full h-[50%] outline-0 rounded-lg py-[.2rem] px-[.5rem] bg-zinc-800"
+          className="resize-none w-full    outline-0 rounded-lg py-[.2rem] px-[.5rem] bg-zinc-800"
           id=""
         ></textarea>
         <Tooltip>

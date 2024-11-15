@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Badge } from "../ui/badge"
 import {motion} from "framer-motion"
-import User from "../client/user";
+import Chats from "../chat/chats";
 const SideBar = () => {
   const [focus, setfocus] = useState(true);
   return (
@@ -43,7 +43,7 @@ const SideBar = () => {
           <Badge variant={"secondary"} style={{transition:"all ease 0.3s"}}  className="font-normal active:scale-[.9] cursor-pointer bg-zinc-800">Status</Badge>
         </div>
       </div>
-      <User/>
+      <Chats/>
     </motion.div>
   );
 };

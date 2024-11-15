@@ -1,11 +1,11 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import { RootState } from "../../state/store";
+import { AppDispatch, RootState } from "../../state/store";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -16,29 +16,43 @@ import {
 } from "../ui/dropdown-menu";
 import { motion, useAnimationControls } from "framer-motion";
 import { useEffect } from "react";
+import alertStore from "@/store/alertUiStore/store";
+import { LogoutUser } from "@/state/auth/authSlice";
+import { useNavigate } from "react-router-dom";
+import { logoutService } from "@/service/authService";
 const Nav = () => {
-  const show=false
-  const icon=useAnimationControls()
-  const letter=useAnimationControls()
-    useEffect(()=>{
-      let i=setTimeout(()=>{
-        letter.start("first")
-      },600)
-         i=setTimeout(()=>{
-            icon.start("first")
-        },800)
-        i=setTimeout(()=>{
-            icon.start("seco")
-        },1600)
-       
-        return ()=>{
-         
-          clearTimeout(i)
-        }
-    },[])
-    useEffect(()=>{
-      icon.start("seco")
-    },[show])
+  const { showAlert, setAlertFn } = alertStore();
+  const navigate = useNavigate();
+  const dispath = useDispatch<AppDispatch>();
+  const logout = () => {
+    setAlertFn(async() => {
+      await logoutService()
+      dispath(LogoutUser());
+      navigate("/auth/login");
+    });
+    showAlert();
+  };
+  const show = false;
+  const icon = useAnimationControls();
+  const letter = useAnimationControls();
+  useEffect(() => {
+    let i = setTimeout(() => {
+      letter.start("first");
+    }, 600);
+    i = setTimeout(() => {
+      icon.start("first");
+    }, 800);
+    i = setTimeout(() => {
+      icon.start("seco");
+    }, 1600);
+
+    return () => {
+      clearTimeout(i);
+    };
+  }, []);
+  useEffect(() => {
+    icon.start("seco");
+  }, [show]);
   const colors = [
     { from: "#D4307A", to: "#991CD1" },
     { from: "#D4ADDD", to: "#BE2EBF" },
@@ -50,19 +64,22 @@ const Nav = () => {
   const active = true;
   const index = Math.floor(Math.random() * colors.length);
   return (
-    <div className="w-full flex items-center px-[2rem] justify-between h-[3rem] border-b-[1px] border-zinc-900">
+    <div className="w-full flex items-center px-[2rem] justify-between md:mt-0 mt-3 h-[3rem] border-b-[1px] border-zinc-900">
       <i className="ri-bubble-chart-line block md:hidden"></i>
-      <motion.div whileTap={{scale:.9}} className="font-medium h-full overflow-hidden items-center flex md:text-2xl text-xl ">
+      <motion.div
+        whileTap={{ scale: 0.9 }}
+        className="font-medium h-full overflow-hidden items-center flex md:text-2xl text-xl "
+      >
         {"Regular".split("").map((e, i) => (
           <motion.span
             initial={{ y: 100, scale: 0.5, opacity: 0, rotate: "90deg" }}
             animate={letter}
             variants={{
-              first:{ y: 0, scale: 1, opacity: 1, rotate: "0deg" }
+              first: { y: 0, scale: 1, opacity: 1, rotate: "0deg" },
             }}
             transition={{
               ease: [0.33, 1, 0.68, 1],
-              delay: i * 0.04,
+              delay: 0.5 + i * 0.03,
               type: "spring",
               bounce: 0.39,
             }}
@@ -75,7 +92,7 @@ const Nav = () => {
           whileHover={{ scaleX: -1 }}
           initial={"initial"}
           variants={{
-            initial:{
+            initial: {
               y: 100,
               scale: 0.5,
               opacity: 0,
@@ -85,7 +102,7 @@ const Nav = () => {
             },
             first: {
               y: 0,
-              scale: [-1, -1, 0, -1, -1, 0, 0, 0 - 1, 1],
+              scale: 1,
               opacity: 1,
               rotate: "0deg",
             },
@@ -172,7 +189,7 @@ const Nav = () => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => logout()}>Logout</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
