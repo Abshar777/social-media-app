@@ -1,7 +1,7 @@
 import { useRef, useEffect, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import Audio from "@/assets/spotifydown.com - When life gives you lemons.mp3";
-import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import img from "@/assets/demon-slayer-tanjiro-unsheathing-the-sword-desktop-wallpaper.jpg";
 import useAudioStore from "@/store/voice/store";
 import { formatDuration } from "@/util/formatTime";
@@ -23,13 +23,13 @@ const AudioMsg = ({
 }: AudioMsgProps) => {
   const waveformRef = useRef<HTMLDivElement>(null);
   const wavesurfer = useRef<WaveSurfer | null>(null);
-  const arrowAnimation = useAnimationControls();
   const { activePlayer, setActivePlayer } = useAudioStore();
   const [show, setShow] = useState(false);
   const [play, setPlay] = useState(false);
   const [duration, setDuration] = useState(0);
   const colors = [{ from: "#FF4B2B", to: "#D4145A" }];
   const index = Math.floor(Math.random() * colors.length);
+ 
 
   useEffect(() => {
     if (waveformRef.current) {
@@ -55,6 +55,7 @@ const AudioMsg = ({
       wavesurfer.current.on("finish", () => setPlay(false));
       wavesurfer.current.on("pause", () => setPlay(false));
       wavesurfer.current.on("play", () => setPlay(true));
+      
     }
 
     return () => {

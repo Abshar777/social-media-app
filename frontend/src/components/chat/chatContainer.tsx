@@ -8,7 +8,7 @@ interface props {
   latestMessageCount: number;
   latestMesage: string;
   latestMessageTime: string;
-  i?:number;
+  i?: number;
 }
 
 const Container = ({
@@ -17,7 +17,7 @@ const Container = ({
   latestMessageTime,
   name,
   image,
-  i
+  i,
 }: props) => {
   const [active, setActive] = useState(false);
   const arrowControls = useAnimationControls();
@@ -33,7 +33,7 @@ const Container = ({
       }}
       animate={{ opacity: 1 }}
       transition={{
-        delay:(i as number)*0.1
+        delay: (i as number) * 0.1,
       }}
       layout
       onHoverStart={() => arrowControls.start("hover")}
@@ -74,44 +74,42 @@ const Container = ({
         </div>
       </div>
       <div className="flex flex-col items-center gap-1">
-        <AnimatePresence mode="wait">
-          <motion.p
-            key={1}
+        <motion.p
+          key={1}
+          layout
+          className={`text-xs ${active ? "text-primary" : "text-zinc-600"}`}
+        >
+          {latestMessageTime}
+        </motion.p>
+        <div key={2} className="flex gap-2">
+          <AnimatePresence mode="popLayout">
+            {active && (
+              <motion.div
+                layout
+                initial={{ scale: 0 }}
+                animate={{ scale: 0.9 }}
+                exit={{ scale: 0, transition: { delay: 0 } }}
+                transition={{ delay: 0.7 }}
+                className="bg-primary flex items-center justify-center rounded-full text-xs w-[1rem] p-[.7rem] h-[1rem]"
+              >
+                {latestMessageCount}
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <motion.i
             layout
-            className={`text-xs ${active ? "text-primary" : "text-zinc-600"}`}
-          >
-            {latestMessageTime}
-          </motion.p>
-          <div key={2} className="flex gap-2">
-            <AnimatePresence mode="popLayout">
-              {active && (
-                <motion.div
-                  layout
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 0.9 }}
-                  exit={{ scale: 0, transition: { delay: 0 } }}
-                  transition={{ delay: 0.7 }}
-                  className="bg-primary flex items-center justify-center rounded-full text-xs w-[1rem] p-[.7rem] h-[1rem]"
-                >
-                  {latestMessageCount}
-                </motion.div>
-              )}
-            </AnimatePresence>
-            <motion.i
-              layout
-              initial={"initial"}
-              animate={arrowControls}
-              variants={{
-                hover: { marginRight: 0, opacity: 1 },
-                initial: {
-                  marginRight: active ? -40 : -20,
-                  opacity: active ? 1 : 0,
-                },
-              }}
-              className="ri-arrow-down-s-line"
-            ></motion.i>
-          </div>
-        </AnimatePresence>
+            initial={"initial"}
+            animate={arrowControls}
+            variants={{
+              hover: { marginRight: 0, opacity: 1 },
+              initial: {
+                marginRight: active ? -40 : -20,
+                opacity: active ? 1 : 0,
+              },
+            }}
+            className="ri-arrow-down-s-line"
+          ></motion.i>
+        </div>
       </div>
     </motion.div>
   );

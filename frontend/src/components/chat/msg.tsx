@@ -55,11 +55,11 @@ const Msg = ({
           !own && "bg-zinc-800"
         }  cursor-pointer w-fit min-w-[6rem] px-[.5rem] py-[.3rem] flex flex-col ${
           own ? "rounded-l-full" : "rounded-r-full"
-        } ${end && "rounded-br-full"} ${!own && end && "rounded-bl-full"} ${
+        } ${start && "rounded-br-full"} ${!own && start && "rounded-bl-full"} ${
           mid && "rounded-full"
-        } ${start && "rounded-tr-full"} ${
-          !own && start && "rounded-tl-full"
-        } ${!start&&!mid&&!end&&"rounded-full"}  max-w-1/2`}
+        } ${end && "rounded-tr-full"} ${
+          !own && end && "rounded-tl-full"
+        } ${!end&&!mid&&!start&&"rounded-full"}  max-w-1/2`}
       >
         <motion.div
           layout

@@ -18,13 +18,14 @@ const Chats = () => {
   return (
     <div className="w-full flex-1 ps-1 pt-1 overflow-y-scroll">
       <div onClick={() => {}}>
-        <AnimatePresence mode="wait">
+        {/* <AnimatePresence mode="wait"> */}
           {loading
             ? Array.from({ length: 10 })
                 .fill(0)
                 .map((_, i) => <ChatContainerLoading key={i} />)
             : chats.map((e,i) => (
                 <ChatContainer
+                key={i}
                 i={i+1}
                   name={e.chatName ? e.chatName : e.members[0].name}
                   image={e.groupImage ? e.groupImage : e.members[0].img}
@@ -33,7 +34,7 @@ const Chats = () => {
                   latestMessageTime="2:00pm"
                 />
               ))}
-        </AnimatePresence>
+        {/* </AnimatePresence> */}
       </div>
     </div>
   );

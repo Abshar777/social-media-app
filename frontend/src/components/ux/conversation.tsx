@@ -5,10 +5,11 @@ import ImageMsg from "../chat/imageMsg";
 import Replay from "../chat/replay";
 import AudioMsg from "../chat/audioMsg";
 import DocMessage from "../chat/docMessage";
+import PollMessage from "../chat/pollMessage";
 
 const Conversation = ({ arr, fn }: { arr: number[]; fn: () => void }) => {
   return (
-    <div className="w-full text-sm px-[.4rem] pt-[1rem]">
+    <div className="w-full flex-col-reverse flex   text-sm px-[.4rem] pt-[1rem]">
       <Msg id="hello" own={false} />
       <Date />
       {arr.map((e, i) => {
@@ -33,6 +34,9 @@ const Conversation = ({ arr, fn }: { arr: number[]; fn: () => void }) => {
      <AudioMsg own={!true}/>
      <AudioMsg own={true}/>
      <DocMessage own={false}/>
+     <DocMessage own={true}/>
+     <PollMessage own={false}/>
+     <PollMessage own={true}/>
     </div>
   );
 };
