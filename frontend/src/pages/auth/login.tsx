@@ -12,6 +12,7 @@ import axios, { AxiosError } from "axios";
 import { SetUser } from "../../state/auth/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../state/store";
+import { login } from "@/api/auth";
 
 function Login() {
   const [err, setErr] = useState<string | undefined>();
@@ -30,10 +31,7 @@ function Login() {
 
   const submit: SubmitHandler<loginSchemaType> = async (data) => {
     try {
-      const { data: payload } = await axios.post("/api/users/login", {
-        email: data.email,
-        password: data.password,
-      });
+      const { data: payload } = await login(data.email,data.password);
       toast.success(" successfully logined");
       dispatch(SetUser(payload));
       reset();

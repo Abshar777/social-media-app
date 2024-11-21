@@ -1,5 +1,5 @@
 import { motion  } from "framer-motion"
-import Chats from "../../components/ux/chats"
+import ConaverstationLayout from "../../components/ux/conaverstationLayout"
 import Nav from "../../components/ux/nav"
 import SideBar from "../../components/ux/sideBar"
 import { useAuth } from "../../hooks/Auth"
@@ -12,7 +12,7 @@ const Home = () => {
       <Nav/>
       <div className="flex  w-full h-full overflow-x-scroll">
         <SideBar/>
-        <Chats/>
+        <ConaverstationLayout/>
         
       </div>
     </motion.div>

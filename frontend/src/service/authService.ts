@@ -1,9 +1,10 @@
+import { logout } from "@/api/auth"
 import axios, { AxiosError } from "axios"
 import { toast } from "sonner"
 
 export const logoutService = async () => {
     try {
-        await axios.post("/api/users/logout");
+        await logout()
         toast.success("logout succefully")
     } catch (error) {
         interface data {

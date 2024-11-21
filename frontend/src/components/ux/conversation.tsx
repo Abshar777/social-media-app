@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
-import Date from "../ui/date";
 import Msg from "../chat/msg";
 import ImageMsg from "../chat/imageMsg";
 import Replay from "../chat/replay";
 import AudioMsg from "../chat/audioMsg";
 import DocMessage from "../chat/docMessage";
 import PollMessage from "../chat/pollMessage";
+import Saprater from "../chat/saprater";
 
-const Conversation = ({ arr, fn }: { arr: number[]; fn: () => void }) => {
+const Conversation = ({}) => {
   return (
     <div className="w-full flex-col-reverse flex   text-sm px-[.4rem] pt-[1rem]">
-      <Msg id="hello" own={false} />
-      <Date />
+      {/* <Msg id="hello" own={false} />
+      <Saprater />
       {arr.map((e, i) => {
         const start = i == 0 || arr[i - 1] % 3 == 0 ? true : false;
         let end = false;
@@ -36,7 +36,7 @@ const Conversation = ({ arr, fn }: { arr: number[]; fn: () => void }) => {
      <DocMessage own={false}/>
      <DocMessage own={true}/>
      <PollMessage own={false}/>
-     <PollMessage own={true}/>
+     <PollMessage own={true}/> */}
     </div>
   );
 };

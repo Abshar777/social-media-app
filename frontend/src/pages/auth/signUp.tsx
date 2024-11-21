@@ -8,10 +8,11 @@ import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { signUpSchema, signUpSchemaType } from "../../lib/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import axios, { AxiosError } from "axios";
+import  { AxiosError } from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../state/store";
 import { SetUser } from "../../state/auth/authSlice";
+import { register as signUp } from "@/api/auth";
 
 
 const SignUp = () => {
@@ -23,11 +24,7 @@ const SignUp = () => {
   const submit: SubmitHandler<signUpSchemaType> = async (data) => {
     setErr(undefined); 
     try {
-     const {data:payload,}= await axios.post("/api/users/register", {
-        email: data.email,
-        password: data.password,
-        name:data.firstName+" "+data.lastName, 
-      });
+     const {data:payload,}= await signUp(data.email,data.password,data.firstName,data.lastName)
       toast.success("Account created successfully");
       dispatch(SetUser(payload))
       reset();

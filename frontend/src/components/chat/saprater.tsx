@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Date = () => {
+const Saprater = () => {
   return (
     <div className='w-full flex items-center justify-between gap-1'>
       <div className="w-full h-[1px] bg-zinc-700"></div>
@@ -10,4 +10,4 @@ const Date = () => {
   )
 }
 
-export default Date
+export default Saprater

@@ -2,6 +2,7 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { Tuser } from "./type";
 
 export const setUser=(state:{userInfo:Tuser | undefined},{payload}:PayloadAction<Tuser>)=>{
+    if(!payload) return;
     state.userInfo={...payload}
     localStorage.setItem("user",JSON.stringify(payload))
 }

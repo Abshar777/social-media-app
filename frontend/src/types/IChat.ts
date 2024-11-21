@@ -1,7 +1,7 @@
 import { IUser } from "./IUser";
 
 export interface IChat {
-    _id: string;
+  _id: string;
   members: IUser[];
   latestMessageCount: number;
   chatName: string | null;

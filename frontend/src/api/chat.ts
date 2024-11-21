@@ -1,4 +1,4 @@
-import { IChat } from "@/types/IChat";
+
 import chatDb from "./db/chat.json"
 
 export const getChat = async () => {
