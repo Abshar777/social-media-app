@@ -5,10 +5,11 @@ import { NextUIProvider } from "@nextui-org/react";
 import { RouterProvider } from "react-router-dom";
 import { ThemeProvider } from "./components/theme/theme-provider.tsx";
 import { Provider } from "react-redux";
-import store from "./state/store.ts";
+import store, { persistor } from "./state/store.ts";
 import { Toaster } from "sonner";
 import router from "./router/router.tsx";
 import { ConformDailogue } from "./components/ux/conformAlert.tsx";
+import { PersistGate } from "redux-persist/integration/react";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -16,8 +17,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <NextUIProvider>
         <Toaster richColors theme="dark" position="bottom-right" />
         <Provider store={store}>
-        <ConformDailogue/>
-          <RouterProvider router={router} />
+          <PersistGate loading={null} persistor={persistor}>
+            <ConformDailogue />
+            <RouterProvider router={router} />
+          </PersistGate>
         </Provider>
       </NextUIProvider>
     </ThemeProvider>

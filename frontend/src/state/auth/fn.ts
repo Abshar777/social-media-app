@@ -4,10 +4,10 @@ import { Tuser } from "./type";
 export const setUser=(state:{userInfo:Tuser | undefined},{payload}:PayloadAction<Tuser>)=>{
     if(!payload) return;
     state.userInfo={...payload}
-    localStorage.setItem("user",JSON.stringify(payload))
+    // localStorage.setItem("user",JSON.stringify(payload))
 }
 
 export const logoutUser=(state:{userInfo:Tuser | undefined})=>{
     state.userInfo=undefined
-    localStorage.removeItem("user")
+    // localStorage.removeItem("user")
 }

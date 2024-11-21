@@ -2,11 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 import { Tuser } from "./type";
 import { logoutUser, setUser } from "./fn";
 
-const user=window.localStorage.getItem("user") || ""
 
 const initialState:{userInfo:Tuser | undefined}={
-    userInfo:user?JSON.parse(user):undefined,
-
+    userInfo:undefined,
 }
 
 const authSlice=createSlice({
