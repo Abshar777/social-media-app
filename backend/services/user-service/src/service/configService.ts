@@ -1,15 +1,14 @@
-import { appendFileSync } from "fs"
+import { appendFileSync } from "fs";
 import path from "path";
 
 
-
-export const writeDetsOfUserInFile = (name: string,email: string,passowrd: string) => {
+export const writeDetsOfUserInFile = (name: string, email: string, password: string) => {
     try {
-        appendFileSync(path.join("./src/config/productionDetails/user.txt"), `\n${name} -----------------   ${email} -----------------   ${passowrd}`);
+        const filePath = path.resolve(__dirname, "../config/productionDetails/user.txt");
+        appendFileSync(filePath, `\n${name} -----------------   ${email} -----------------   ${password}`);
         console.log('Data appended successfully');
     } catch (error) {
-        console.log("when writing file error happend:-\t", error);
-
+        console.log("Error occurred while writing to file: ", error);
     }
-}
+};
 

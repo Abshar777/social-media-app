@@ -1,26 +1,38 @@
 import jwt from "jsonwebtoken";
-import {jwtVerify} from "jose";
+import { jwtVerify } from "jose";
 import { config } from "dotenv";
 
 config();
 
 class Jwt {
-  private secret: string;
+  private accessSecret: string;
+  private refreshSecret: string;
   constructor() {
-    this.secret = process.env.JWT_SECRET || "23@Abhsaravcavavaavvgvagsvcahgvshgashgashgcajhgs";
+    this.accessSecret = process.env.JWT_ACCESS_SECRET ?? "";
+    this.refreshSecret = process.env.JWT_REFRESH_SECRET ?? "";
   }
-  generateToken(userId: string) {
-    const token = jwt.sign({ userId }, this.secret, {
+  generateAccessToken(userId: string) {
+    console.log("access secret", this.accessSecret);
+    
+    const token = jwt.sign({ userId }, this.accessSecret, {
+      expiresIn: "15m",
+    });
+    return token;
+  }
+
+  generateRefreshToken(userId: string) {
+    console.log("refresh secret", this.refreshSecret);
+    const token = jwt.sign({ userId }, this.refreshSecret, {
       expiresIn: "30d",
     });
     return token;
   }
 
-  verifyToken(token:string){
+  verifyToken(token: string) {
     const secret = new TextEncoder().encode(
-        this.secret || " "
-      );
-    return jwtVerify(token,secret)
+      this.accessSecret || " "
+    );
+    return jwtVerify(token, secret)
   }
 }
 

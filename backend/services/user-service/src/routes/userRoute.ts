@@ -1,6 +1,6 @@
 import express from "express"
 import UserController from "../controller/userController";
-import authMiddilware from "../middleware/authMiddileware";
+import authMiddilware, { refreshTokenMidllWare } from "../middleware/authMiddileware";
 const Router =express.Router();
 const controller=new UserController()
 
@@ -15,7 +15,10 @@ Router.route("/register").post(controller.registerUser.bind(controller));
 Router.route("/check").get(authMiddilware,controller.checkUser.bind(controller));
 
 // logout
-Router.post("/logout",authMiddilware,controller.logoutUser.bind(controller))
+Router.post("/logout",authMiddilware,controller.logoutUser.bind(controller));
+
+// get refresh Token
+Router.post("/token",controller.refreshTokenGet.bind(controller))
 
 
 export default Router

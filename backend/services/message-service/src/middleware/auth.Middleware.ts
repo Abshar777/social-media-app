@@ -6,7 +6,6 @@ import userSchema from "../model/userSchema";
 
 
 const authMiddilware = AsyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
-    // console.log(req.headers);
     const {authorization:authHeader} = req.headers;
     const token = authHeader && authHeader.split(" ")[1];
 
@@ -31,31 +30,5 @@ const authMiddilware = AsyncHandler(async (req: AuthRequest, res: Response, next
 
 
 });
-
-
-export const refreshTokenMidllWare = AsyncHandler(async (req: AuthRequest, res: Response, next: NextFunction) => {
-    const refreshToken = req.cookies?.__refreshToken;
-
-    if (!refreshToken) {
-        console.log('no token')
-        res.status(400);
-        throw new Error("unothriezed user and user dont have token")
-    } else {
-        const jwt = new Jwt();
-        const { payload: { userId } } = await jwt.verifyToken(refreshToken);
-        if (!userId) {
-            res.status(400);
-            throw new Error("user not found");
-        }
-        const user = await userSchema.findById(userId);
-        if (!user || user.isBlock) {
-            console.log('user not found or user is Blocked');
-            res.status(400);
-            throw new Error("user not found or user is Blocked");
-        }
-        req.user = userId as string
-        next();
-    }
-})
 
 export default authMiddilware

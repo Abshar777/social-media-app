@@ -46,7 +46,7 @@ const Replay = ({ own = false }: { own: boolean }) => {
         </div>
         <motion.div
           layout
-          className={`flex ${!own && "flex-row-reverse"} relative gap-3`}
+          className={`flex  relative gap-10`}
         >
           <h1
             className={`${!own ? "ml-[.5rem]" : "mr-[.5rem]"} ${
@@ -55,22 +55,12 @@ const Replay = ({ own = false }: { own: boolean }) => {
           >
             hi
           </h1>
-          <AnimatePresence mode="popLayout">
-            {show && (
-              <motion.i
-                layout
-                initial={"initial"}
-                animate={"hover"}
-                variants={{
-                  hover: { opacity: 1 },
-                  initial: { opacity: 0 },
-                }}
-                className={`ri-arrow-down-s-line text-zinc-300 absolute ${
-                  !own ? "right-[85%]" : "left-[85%]"
-                }`}
-              ></motion.i>
-            )}
-          </AnimatePresence>
+          <div className="flex">
+            <div className="flex gap-2 mt-1">
+              <p className="text-white/40 text-xs ">11:00pm</p>
+              <i className="ri-check-double-line text-violet-500"></i>
+            </div>
+          </div>
         </motion.div>
       </motion.div>
     </motion.div>

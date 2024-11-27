@@ -17,7 +17,7 @@ type AudioMsgProps = {
 const AudioMsg = ({
   id,
   own = true,
-  start = true,
+  start = false,
   end = false,
   mid = false,
 }: AudioMsgProps) => {
@@ -95,11 +95,9 @@ const AudioMsg = ({
           !own && "bg-zinc-800"
         } cursor-pointer lg:min-w-[30%] md:min-w-[60%] min-w-[80%] px-[.5rem] py-[.3rem] flex flex-col ${
           own ? "rounded-l-full" : "rounded-r-full"
-        } ${end && "rounded-br-full"} ${!own && end && "rounded-bl-full"} ${
-          mid && "rounded-full"
-        } ${start && "rounded-tr-full"} ${!own && start && "rounded-tl-full"} ${
-          !start && !mid && !end && "rounded-full"
-        } max-w-1/2`}
+        } ${end && "rounded-br-full"} ${
+          own ? "rounded-l-full" : "rounded-r-full"
+        } ${own&&end && "rounded-br-full"}  ${!own && end && "rounded-bl-full"}  ${own&&start && "rounded-tr-full"} ${!own && start && "rounded-tl-full"} ${!mid&&!start&&!end&&"rounded-full"} max-w-1/2`}
       >
         <div className="w-full h-full flex-flex-col">
           <motion.div

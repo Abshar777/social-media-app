@@ -49,6 +49,8 @@ const userSchema: Schema<UserDocument> = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'Story'
   }],
+
+
 }, {
   timestamps: true,
 });

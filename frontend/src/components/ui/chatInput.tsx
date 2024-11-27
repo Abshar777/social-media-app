@@ -217,7 +217,7 @@ const ChatInput = () => {
           name=""
           className={`resize-none w-full ${
             isRecording && "hidden"
-          }  flex items-center   outline-0 rounded-lg px-[.5rem] py-[.4rem] md:py-[.2rem] md:px-[.5rem] bg-zinc-800`}
+          }  flex items-center md:mt-1   outline-0 rounded-lg px-[.5rem] py-[.4rem] md:py-[.2rem] md:px-[.5rem] bg-zinc-800`}
           id=""
         ></textarea>
 

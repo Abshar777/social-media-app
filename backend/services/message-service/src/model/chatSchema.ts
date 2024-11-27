@@ -9,7 +9,8 @@ const chatSchema = new Schema<IChat>({
     lastSender:{type: Schema.Types.ObjectId, ref: "User"},
     latestMessageCount:{type:Number,default:0},
     groupAdmin: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    createdUser:{ type: Schema.Types.ObjectId, ref: "User" }
+    createdUser:{ type: Schema.Types.ObjectId, ref: "User" } ,
+    groupAvatar: { type: String }, 
 }, {
     timestamps: true
 }

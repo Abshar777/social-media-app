@@ -11,4 +11,5 @@ export interface IChat extends Document {
     lastSender:Types.ObjectId;
     updatedAt: Date;
     createdUser:Types.ObjectId;
+    groupAvatar:string;
 }

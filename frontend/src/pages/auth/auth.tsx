@@ -1,11 +1,9 @@
 import { Outlet } from "react-router-dom";
 import ImgCover from "../../components/ux/imgCover";
 import video from "../../assets/original-80071a533bd3c78d18f93bf70c273d1a.mp4";
-import { Toaster } from "sonner";
 import { useAuthCheck } from "../../hooks/Auth";
 import { useEffect, useState } from "react";
-import Authloading from "../loading/auth";
-import Login from "./login";
+import Authloading from "../loading/authLoading";
 const Auth = () => {
   const [loading, setLoading] = useState(true);
   useAuthCheck();

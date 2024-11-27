@@ -1,11 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import Jwt from "../util/jwt";
+import { NextFunction, Response } from "express";
 import userSchema, { UserDocument } from "../model/userSchema";
-
 import { Model } from "mongoose";
-import MessageBroker from "../util/messageBroker";
 import { AuthRequest } from "../types/api";
-// import { Event } from "../types/events";
 import { IChat } from "../types/interface/IChat";
 import chatSchema from "../model/chatSchema";
 import { IMessage } from "../types/interface/IMessage";
@@ -13,19 +9,14 @@ import messageSchema from "../model/messageSchema";
 
 
 class ChatController {
-    private Jwt: Jwt;
     private UserModel: Model<UserDocument>;
     private ChatModel: Model<IChat>;
     private messageModel: Model<IMessage>
-    private Kafka: MessageBroker;
 
     constructor() {
-        this.Jwt = new Jwt();
         this.UserModel = userSchema;
         this.ChatModel = chatSchema;
         this.messageModel = messageSchema;
-        
-        this.Kafka = new MessageBroker();
     }
 
     //@body    id:userId
@@ -136,7 +127,7 @@ class ChatController {
         }
     }
 
-    
+
     // @desc    Delete group chat and its messages
     // @method  DELETE
     // @body    id:chatId
@@ -159,10 +150,56 @@ class ChatController {
     }
 
 
+    // @desc    upload group avatar
+    // @method  POST
+    // @body    id:chatId,avatar:image
+    async uploadGroupAvatar(req: AuthRequest, res: Response, next: NextFunction) {
+        try {
+            const { id, avatar } = req.body;
+            const chat = await this.ChatModel.findById(id);
+            if (!chat) return res.status(404).json({ message: "Chat not found" });
+            if (chat.isGroupChat === false) return res.status(400).json({ message: "Not a group chat" });
+            chat.groupAvatar = avatar;
+            await chat.save();
+            res.status(200).json({ message: "Group avatar uploaded", data: chat });
+        } catch (error) {
+            next(error);
+        }
+    }
 
-
-
-
+    // @desc    delete group avatar
+    // @method  DELETE
+    // @body    id:chatId
+    async deleteGroupAvatar(req: AuthRequest, res: Response, next: NextFunction) {
+        try {
+            const { id } = req.body;
+            const chat = await this.ChatModel.findById(id);
+            if (!chat) return res.status(404).json({ message: "Chat not found" });
+            if (chat.isGroupChat === false) return res.status(400).json({ message: "Not a group chat" });
+            chat.groupAvatar = "";
+            await chat.save();
+            res.status(200).json({ message: "Group avatar deleted", data: chat });
+        } catch (error) {
+            next(error);
+        }
+    }
+    
+    
+    // @desc serach chat by name or email or user name 
+    // @method  GET
+    // @body    name:chatName
+    async searchChatByName(req: AuthRequest, res: Response, next: NextFunction) {
+        try {
+            const { name } = req.query;
+            if (!name) return res.status(400).json({ message: "name not found" });
+            const chats = await this.ChatModel.find({
+                $or: [{ chatName: { $regex: name, $options: 'i' } }, { users: { $elemMatch: { $eq: name } } }]
+            }).populate("users", "-password").populate("latestMessage")
+            res.status(200).json({ message: "succefully search chat", data: chats })    
+        } catch (error) {
+            next(error);
+        }
+    }
 
 
 

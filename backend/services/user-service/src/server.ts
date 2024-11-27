@@ -12,7 +12,7 @@ config();
 dbConnect();
 consumeMessages();
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT ;
 const apiRoot = process.env.API_ROOT || "/api/user-service";
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -21,6 +21,7 @@ app.use(cookieParser())
 app.use(apiRoot, Router);
 app.use(notFound);
 app.use(errorHandler);
+
 app.listen(port, () => {
-  console.log("user service running on " + port);
+  console.log("user service running on fucl" + port);
 });

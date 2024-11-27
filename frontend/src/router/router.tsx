@@ -4,6 +4,7 @@ import SignUp from "@/pages/auth/signUp";
 import Home from "@/pages/client/home";
 import NotFound from "@/pages/error/notFound";
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import ProtectedRoute from "./protectedRoute";
 
 const router = createBrowserRouter([
   {
@@ -26,8 +27,11 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/home",
-    element: <Home />,
+    element: <ProtectedRoute />,
+    children:[{
+      path:"home",
+      element: <Home />
+    }]
   },
 ]);
 

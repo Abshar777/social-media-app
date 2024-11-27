@@ -49,6 +49,11 @@ const userSchema: Schema<UserDocument> = new Schema({
     type: mongoose.Types.ObjectId,
     ref: 'Story'
   }],
+  archiveChat: [{ type: mongoose.Types.ObjectId, ref: 'Chat', default: [] }],
+  starredMessage: [{ type: mongoose.Types.ObjectId, ref: 'Chat', default: [] }],
+  pinnedChat: [{ type: mongoose.Types.ObjectId, ref: 'Chat', default: [] }],
+  isOnline: { type: Boolean, default: false },
+  latestOnline: { type: Date, default: Date.now },
 }, {
   timestamps: true,
 });

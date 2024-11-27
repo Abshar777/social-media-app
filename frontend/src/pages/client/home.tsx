@@ -5,7 +5,7 @@ import SideBar from "../../components/ux/sideBar"
 import { useAuth } from "../../hooks/Auth"
 
 const Home = () => {
-  useAuth()
+  // useAuth()
   return (
    <motion.div layout className="w-full p-[.3rem] h-screen overflow-hidden">
     <motion.div initial={{scale:2.6,opacity:0}} animate={{scale:1,opacity:1}} transition={{duration:.7,ease:"easeInOut"}} className="w-full h-full overflow-hidden rounded-lg bg-neutral-900">

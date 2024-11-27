@@ -3,6 +3,7 @@ import authSlice from "./auth/authSlice";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {encryptTransform} from "redux-persist-transform-encrypt";
+import { version } from "process";
 
 const secret=import.meta.env.VITE_PERSIST_TRANSFORM_ENCRYPT_SECRET ||"fallback-secret-key";
 const encryptor = encryptTransform({
@@ -11,11 +12,12 @@ const encryptor = encryptTransform({
     console.error("Encryption error:", error);
   }
 });
-const persistConfig = {
+const persistConfig:any =( {
     key: 'root',
+    version:1,
     storage,
-    transform:[encryptor]
-};
+    transforms:[encryptor]
+});
 
 const rootReducer = combineReducers({
     Auth: authSlice
@@ -27,7 +29,9 @@ const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-            serializableCheck: false,
+            serializableCheck: {
+              ignoredActions:['persist/PERSIST']
+            }
         })
 })
 

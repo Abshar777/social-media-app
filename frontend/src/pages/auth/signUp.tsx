@@ -26,7 +26,8 @@ const SignUp = () => {
     try {
      const {data:payload,}= await signUp(data.email,data.password,data.firstName,data.lastName)
       toast.success("Account created successfully");
-      dispatch(SetUser(payload))
+      dispatch(SetUser(payload.data))
+      localStorage.setItem("__accessToken",payload.token);
       reset();
     } catch (err) {
       interface data{message:string}

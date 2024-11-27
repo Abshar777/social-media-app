@@ -6,7 +6,9 @@ export interface IMessage extends Document {
     file?: string;
     type: "Text" | "Media" | "Document" | "Link" | "Replay";
     chatId: Types.ObjectId;
-    readBy: Types.ObjectId[];
+    seenBy: Types.ObjectId[];
     createdAt?: Date;
     updatedAt?: Date;
+    deletedBy: Types.ObjectId[];
+    isDeleted: boolean;
 }

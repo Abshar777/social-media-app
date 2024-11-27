@@ -14,6 +14,7 @@ interface IUser extends Document  {
     stories:mongoose.Types.ObjectId[];
     socket_id:string;
     postCount:number;
+    
 }
 
 export default IUser
