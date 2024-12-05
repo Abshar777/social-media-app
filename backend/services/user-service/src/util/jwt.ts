@@ -13,9 +13,9 @@ class Jwt {
   }
   generateAccessToken(userId: string) {
     console.log("access secret", this.accessSecret);
-    
+
     const token = jwt.sign({ userId }, this.accessSecret, {
-      expiresIn: "15m",
+      expiresIn: "2m",
     });
     return token;
   }
@@ -28,12 +28,23 @@ class Jwt {
     return token;
   }
 
-  verifyToken(token: string) {
-    const secret = new TextEncoder().encode(
-      this.accessSecret || " "
-    );
-    return jwtVerify(token, secret)
+  verifyAccessToken(token: string) {
+    try {
+      const decoded = jwt.verify(token, this.accessSecret); 
+      return decoded; 
+    } catch (error) {
+      throw new Error("Invalid or expired token"); 
+    }
   }
+  verifyRefreshToken(token: string) {
+    try {
+      const decoded = jwt.verify(token, this.refreshSecret); 
+      return decoded; 
+    } catch (error) {
+      throw new Error("Invalid or expired token"); 
+    }
+  }
+
 }
 
 export default Jwt;

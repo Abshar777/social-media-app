@@ -25,7 +25,6 @@ function Login() {
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
-    setError,
   } = useForm<loginSchemaType>({
     resolver: zodResolver(loginSchema),
   });
@@ -42,8 +41,6 @@ function Login() {
         message: string;
       }
       const { message } = (err as AxiosError).response?.data as data;
-      const feild = message.split(" ")[0] == "user" ? "email" : "password";
-      setError(feild, { type: "custom" });
       setErr(message);
       toast.error("login failed", { description: message });
     }

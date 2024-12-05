@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import Msg from "../chat/msg";
-import ImageMsg from "../chat/imageMsg";
-import Replay from "../chat/replay";
-import AudioMsg from "../chat/audioMsg";
-import DocMessage from "../chat/docMessage";
-import PollMessage from "../chat/pollMessage";
-import Saprater from "../chat/saprater";
+import Msg from "./msg";
+import ImageMsg from "./imageMsg";
+import Replay from "./replay";
+import AudioMsg from "./audioMsg";
+import DocMessage from "./docMessage";
+import PollMessage from "./pollMessage";
+import Saprater from "./saprater";
 
 const Conversation = ({}) => {
   return (

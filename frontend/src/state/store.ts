@@ -3,7 +3,6 @@ import authSlice from "./auth/authSlice";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import {encryptTransform} from "redux-persist-transform-encrypt";
-import { version } from "process";
 
 const secret=import.meta.env.VITE_PERSIST_TRANSFORM_ENCRYPT_SECRET ||"fallback-secret-key";
 const encryptor = encryptTransform({

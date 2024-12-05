@@ -10,16 +10,17 @@ import { toast } from "sonner";
 
 const ProtectedRoute = () => {
   const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setTimeout(()=>{
-      setLoading(false) 
-    },1000)
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(()=>{
+  //     setLoading(false) 
+  //   },1000)
+  // }, []);
   const dispatch = useDispatch<AppDispatch>();
   const {isLoading,isSuccess,isError,data,error} = useQuery({ queryKey: ["user"], queryFn: check });
   if(isLoading&&loading) return <ChatLoading/>
   if(isSuccess){ 
-    dispatch(SetUser(data));
+   if(data.data) dispatch(SetUser(data.data));
+   if(data.token) localStorage.setItem("token",data.token);
     return <Outlet/>}
   if(isError){
     toast.error("protected route error",{description:error.message})

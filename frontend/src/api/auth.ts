@@ -19,7 +19,7 @@ export const login = async (email: string, password: string) => {
 
 export const check = async () => {        
     const {data:{data,token}}= await axiosInstance.get("/api/user-service/check");
-    return data
+    return {data,token}
 }
 
 export const logout = async () => {    

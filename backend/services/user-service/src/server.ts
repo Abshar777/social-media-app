@@ -23,5 +23,5 @@ app.use(notFound);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log("user service running on fucl" + port);
+  console.log("user service running on " + port);
 });

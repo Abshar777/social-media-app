@@ -12,116 +12,60 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-import WaveSurfer from "wavesurfer.js";
 import MicrophonePlugin from "wavesurfer.js/dist/plugins/record";
-
+import { useWaveSurfer } from "@/hooks/WaveSurfer";
+import { formatTime } from "@/util/formatTime";
 const ChatInput = () => {
   const addMotion = useAnimationControls();
   const [chat, setChat] = useState("");
   const [send, setsend] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   const waveformRef = useRef<HTMLElement | null>(null);
-  const waveSurferRef = useRef<WaveSurfer | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [progress, setProgress] = useState("00:00");
-  const record = useRef<MicrophonePlugin | null>(null);
   const [isPause, setIsPause] = useState(true);
   const [IsRecordEnd, setIsRecordEnd] = useState(false);
-  const [url,setUrl]=useState("")
+  const [url, setUrl] = useState("");
   const sendIconClassName = ` ml-1 hover:bg-zinc-800  rounded-full w-[2.5rem] h-[2.5rem] flex items-center justify-center`;
   useEffect(() => {
     if (!showDropdown) addMotion.start("initial");
     else addMotion.start("animate");
   }, [showDropdown]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  useEffect(() => {
-    if (waveformRef.current) {
-      waveSurferRef.current?.destroy();
-      waveSurferRef.current = WaveSurfer.create({
-        container: waveformRef.current,
-        waveColor: "#34374B",
-        progressColor: "#ffff",
-        dragToSeek: true,
-        hideScrollbar: true,
-        normalize: true,
-        barGap: 1,
-        height: 20,
-        barHeight: 20,
-        barRadius: 20,
-        barWidth: 5,
-      });
-
-      const recordPlugin = MicrophonePlugin.create({
-        audioBitsPerSecond: 128000,
-        renderRecordedAudio: true,
-        scrollingWaveform: true,
-      });
-
-      record.current = waveSurferRef.current.registerPlugin(recordPlugin);
-
-      record.current.on("record-end", (blob) => {
-        const url = URL.createObjectURL(blob);
-        setUrl(url)
-        console.log("end", url);
-        setIsPause(true);
-        setIsRecordEnd(true)
-      });
-      record.current.on("record-progress", (time: number) => {
-        setIsRecordEnd(false)
-        const minutes = Math.floor((time % 3600000) / 60000);
-        const seconds = Math.floor((time % 60000) / 1000);
-        setProgress(
-          [minutes, seconds].map((v) => (v < 10 ? "0" + v : v)).join(":")
-        );
-      });
-      waveSurferRef.current.on("play", () => {
-        setIsPause(false);
-      });
-      waveSurferRef.current.on("pause", () => {
-        setIsPause(true);
-        console.log('puase the record');
-        
-      });
-      waveSurferRef.current.on("finish", () => setIsPause(true));
-    }
-    return () => {
-      waveSurferRef.current?.destroy();
-    };
-  }, []);
+  const onRecordEnd = (blob: Blob) => {
+    const url = URL.createObjectURL(blob);
+    setUrl(url);
+    setIsPause(true);
+    setIsRecordEnd(true);
+  };
+  const recordProgress = (time: number) => {
+    setIsRecordEnd(false);
+    setProgress(formatTime(time));
+  };
+  const { waveSurferRef, recordPlugin } = useWaveSurfer(
+    waveformRef,
+    onRecordEnd,
+    recordProgress,
+    () => setIsPause(true),
+    () => setIsPause(false),
+    () => setIsPause(true)
+  );
   const startRecording = () => {
-    if (!record.current) return;
+    if (!recordPlugin.current) return;
     setsend(true);
     setIsRecording(true);
     setIsPause(false);
-    record.current
-      .startRecording()
-      .then(() => {
-        console.log("recording started");
-      })
-      .catch((err) => {
-        console.log(err, "recording error");
-      });
+    recordPlugin.current.startRecording();
   };
 
-  const stopRecording = () => {
-    if (!record.current) return;
-    record.current.stopRecording();
-    // setIsRecording(false);
-  };
+  const stopRecording = () => recordPlugin.current?.stopRecording();   
+  const playRecording = () => waveSurferRef.current?.play();
+  const pauseRecording = () => waveSurferRef.current?.pause();
 
-  const playRecording = () => {
-    if (!waveSurferRef.current) return;
-    waveSurferRef.current.play();
-  };
-
-  const pauseRecording = () => {
-    if (!waveSurferRef.current) return;
-    waveSurferRef.current.pause();
-  };
   const dltRecording = () => {
     if (!waveSurferRef.current) return;
     if (isRecording) {
-      record.current?.stopRecording();
+      recordPlugin.current?.stopRecording();
       setIsRecording(false);
     }
     waveSurferRef.current.empty();
@@ -140,14 +84,11 @@ const ChatInput = () => {
     }
   };
 
-  useEffect(()=>{
-    navigator.permissions.query({name:"notifications" }).then((result) => {
-      console.log(result.state); // 'granted', 'denied', or 'prompt'
-    });
+  useEffect(() => {
     MicrophonePlugin.getAvailableAudioDevices().then((devices) => {
-      console.log(devices); 
+      console.log(devices);
     });
-  })
+  });
   return (
     <div
       id="chatBox"
@@ -248,9 +189,9 @@ const ChatInput = () => {
               className="px-[.5rem] py-[.4rem] md:py-[.2rem] md:px-[.5rem] w-1/4  rounded-xl"
               ref={waveformRef as any}
             ></div>
-            {(send && isRecording&&!isPause) && (
+            {send && isRecording && !isPause && (
               <motion.i
-                onClick={!IsRecordEnd?stopRecording:pauseRecording}
+                onClick={!IsRecordEnd ? stopRecording : pauseRecording}
                 initial={{ rotate: "90deg" }}
                 animate={{ rotate: "0deg" }}
                 exit={{ rotate: "180deg" }}
@@ -260,7 +201,7 @@ const ChatInput = () => {
                 }
               ></motion.i>
             )}
-            {send && isPause &&(
+            {send && isPause && (
               <motion.i
                 onClick={playRecording}
                 initial={{ rotate: "90deg" }}
@@ -304,7 +245,6 @@ const ChatInput = () => {
             {send ? "send" : "voice"}
           </TooltipContent>
         </Tooltip>
-        
       </TooltipProvider>
     </div>
   );

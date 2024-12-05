@@ -3,7 +3,7 @@ import img from "../../assets/download.jpg"
 import mdImg from "../../assets/New Project 155 [8944589].png"
 import ChatInput from "../ui/chatInput";
 import ChatNav from "../ui/chatNav";
-import Conversation from "./conversation";
+import Conversation from "../chat/conversation";
 const ConaverstationLayout = () => {
   const [arr,setArr]=useState([1,3,4,4,5,6,7]);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);

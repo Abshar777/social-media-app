@@ -18,7 +18,7 @@ Router.route("/check").get(authMiddilware,controller.checkUser.bind(controller))
 Router.post("/logout",authMiddilware,controller.logoutUser.bind(controller));
 
 // get refresh Token
-Router.post("/token",controller.refreshTokenGet.bind(controller))
+Router.post("/token",refreshTokenMidllWare,controller.refreshTokenGet.bind(controller))
 
 
 export default Router

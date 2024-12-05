@@ -1,7 +1,7 @@
-import { check, getRereshToken } from '@/api/auth';
+import { getRereshToken } from '@/api/auth';
 import { LogoutUser } from '@/state/auth/authSlice';
 import store from '@/state/store';
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 const axiosInstance: AxiosInstance = axios.create({
     // baseURL: import.meta.env.VITE_API_BASE_URL,
@@ -14,8 +14,9 @@ const axiosInstance: AxiosInstance = axios.create({
 // req interceptor @desc: get accessToken from local storage and set the default headers 
 axiosInstance.interceptors.request.use(config => {
     const token = localStorage.getItem("__accessToken");
-    if (!token) { 
-        throw new Error("token not exist"); }
+    if (!token) {
+        throw new Error("token not exist");
+    }
     axiosInstance.defaults.headers['Authorization'] = `Bearer ${token}`;
     config.headers['Authorization'] = `Bearer ${token}`;
     return config

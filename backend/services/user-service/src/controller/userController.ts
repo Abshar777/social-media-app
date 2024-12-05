@@ -7,6 +7,7 @@ import MessageBroker from "../util/messageBroker";
 import { AuthRequest } from "../types/api";
 import { Event } from "../types/events";
 import { writeDetsOfUserInFile } from "../service/configService";
+import { JwtPayload } from "jsonwebtoken";
 
 class UserController {
   private Jwt: Jwt;
@@ -111,6 +112,7 @@ class UserController {
   }
 
   async refreshTokenGet(req: AuthRequest, res: Response, next: NextFunction) {
+   try {
     const refreshToken = req.cookies?.__refreshToken;
 
     if (!refreshToken) {
@@ -119,7 +121,7 @@ class UserController {
       throw new Error("unothriezed user and user dont have token")
     } else {
       const jwt = new Jwt();
-      const { payload: { userId } } = await jwt.verifyToken(refreshToken);
+      const {userId} = jwt.verifyRefreshToken(refreshToken) as JwtPayload;
       if (!userId) {
         res.status(400);
         throw new Error("user not found");
@@ -132,9 +134,16 @@ class UserController {
       }
       const token=this.Jwt.generateAccessToken(user._id as string);
       req.user = userId as string;
-
+      res.cookie("__refreshToken", refreshToken, {
+        httpOnly: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+        path: "/",
+      });
       res.status(200).json({token,message:"succesfully created token"})
     }
+   } catch (error) {
+    next(error);
+   }
   }
 }
 
