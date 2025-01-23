@@ -11,7 +11,7 @@ const messageSchema = new Schema<IMessage>(
         seenBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
         deletedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
         isDeleted: { type: Boolean, default: false },
-    },
+    }, 
     { timestamps: true }
 );
 

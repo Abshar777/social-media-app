@@ -16,6 +16,8 @@ export const errorHandler=(err:Error,req:Request,res:Response,next:NextFunction)
         statusCode=404;
         message="Note not found";
     }
+    
+    console.log("🔴",message);
 
     res.status(statusCode).json({
         message,

@@ -113,12 +113,12 @@ services:
     develop:
       watch:
         - action: sync
-          path: ./message-service
+          path: ./services/message-service
           target: /app/
           ignore:
             - node_modules/
         - action: rebuild
-          path: ./message-service/package.json
+          path: ./services/message-service/package.json
 
 
   nginx:

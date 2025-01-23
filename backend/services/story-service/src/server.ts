@@ -12,6 +12,7 @@ config();
 dbConnect();
 consumeMessages();
 
+
 const app = express();
 const port = process.env.PORT || 3002;
 const apiRoot = process.env.API_ROOT || "/api/story-service";

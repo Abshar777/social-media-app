@@ -16,7 +16,7 @@ interface IUser extends Document  {
     postCount:number;
     archiveChat:mongoose.Types.ObjectId[];
     starredMessage:mongoose.Types.ObjectId[];
-    status:string;
+    status:"Online"|"Offline";
     isOnline:boolean;
     latestOnline:Date;
     pinnedChat:mongoose.Types.ObjectId[];

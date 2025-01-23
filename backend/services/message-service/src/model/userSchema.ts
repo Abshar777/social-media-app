@@ -54,6 +54,10 @@ const userSchema: Schema<UserDocument> = new Schema({
   pinnedChat: [{ type: mongoose.Types.ObjectId, ref: 'Chat', default: [] }],
   isOnline: { type: Boolean, default: false },
   latestOnline: { type: Date, default: Date.now },
+  status:{
+    type:String,
+    enum: ["Online", "Offline"]
+  }
 }, {
   timestamps: true,
 });
@@ -75,4 +79,4 @@ userSchema.methods.comparePassword = function (password: string) {
   return bcrypt.compareSync(password, this.password);
 }
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model<UserDocument>("User", userSchema);

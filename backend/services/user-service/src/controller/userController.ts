@@ -6,7 +6,6 @@ import MessageBroker from "../util/messageBroker";
 
 import { AuthRequest } from "../types/api";
 import { Event } from "../types/events";
-import { writeDetsOfUserInFile } from "../service/configService";
 import { JwtPayload } from "jsonwebtoken";
 
 class UserController {
@@ -20,7 +19,9 @@ class UserController {
     this.Kafka = new MessageBroker();
   }
 
-  
+  //@desc    register user
+  //@body    name,email,password
+  //@method  POST
   async registerUser(req: Request, res: Response, next: NextFunction) {
     try {
       const { name, email, password } = req.body;
@@ -30,7 +31,6 @@ class UserController {
         throw new Error("User already exists");
       }
       const user = await this.UserModel.create({ name, email, password });
-
 
       if (user) {
         const accesToken = this.Jwt.generateAccessToken(user._id as string);
@@ -56,6 +56,9 @@ class UserController {
     }
   }
 
+  //@desc    login route
+  //@body    email,password
+  //@method  POST
   async login(req: Request, res: Response, next: NextFunction) {
     try {
       const { email, password } = req.body;
@@ -70,7 +73,7 @@ class UserController {
         throw new Error("Password is incorrect");
       } else {
         const accesToken = this.Jwt.generateAccessToken(user._id as string);
-        const refreshToken = this.Jwt.generateRefreshToken(user._id as string)
+        const refreshToken = this.Jwt.generateRefreshToken(user._id as string);
         res.cookie("__refreshToken", refreshToken, {
           httpOnly: true,
           maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -88,6 +91,8 @@ class UserController {
     }
   }
 
+  //@desc    check user
+  //@method  GET
   async checkUser(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const userId = req.user;
@@ -101,6 +106,8 @@ class UserController {
     }
   }
 
+  //@desc    logout user
+  //@method  POST
   logoutUser(req: AuthRequest, res: Response) {
     res.cookie("__refreshToken", "", {
       httpOnly: true,
@@ -111,6 +118,8 @@ class UserController {
     res.status(200).json({ message: "User successfully logged out" });
   }
 
+  //@desc    refresh token
+  //@method  POST
   async refreshTokenGet(req: AuthRequest, res: Response, next: NextFunction) {
    try {
     const refreshToken = req.cookies?.__refreshToken;
@@ -144,6 +153,17 @@ class UserController {
    } catch (error) {
     next(error);
    }
+  }
+
+  //@desc    get all users
+  //@method  GET
+  async getAllUsers(req: AuthRequest, res: Response, next: NextFunction) {
+    try {
+      const users = await userSchema.find().select('-password'); // Exclude password from the response
+      res.status(200).json({ message: "Successfully retrieved all users", data: users });
+    } catch (error) {
+      next(error);
+    }
   }
 }
 
