@@ -7,10 +7,10 @@ const router = express.Router();
 const chatController = new ChatController();
 
 // access chat or create chat   
-router.post('/access', validate(chatValidators.accessChatOrCreateChat), chatController.accessChatOrCreateChat.bind(chatController));
+router.post('/accessChat', validate(chatValidators.accessChatOrCreateChat), chatController.accessChatOrCreateChat.bind(chatController));
 
 // fetch all chat
-router.get('/fetch', chatController.fetchAllChat.bind(chatController));
+router.get('/fetchAllChat', chatController.fetchAllChat.bind(chatController));
 
 // create group chat
 router.post('/group', validate(chatValidators.createGroupChat), chatController.createGroupChat.bind(chatController));

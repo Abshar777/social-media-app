@@ -34,8 +34,8 @@ class ChatController {
             ],
         }).populate("users", "name img _id")
         if (chat) return res.status(200).json({ message: "succefully get availble chat", data: chat })
-        const newChat = await (await (await this.ChatModel.create({ chatName: "sender", users: [req.user, id] })).populate("users", "-password")).populate("latestMessage")
-        res.status(200).json({ message: "succefully create chat" });
+        const newChat =  await (await this.ChatModel.create({ chatName: "UNTITLED", users: [req.user, id] })).populate("users", "-password");
+        res.status(201).json({ message: "succefully create chat",data:newChat });
     }
 
     // @desc    fetch all chat 
