@@ -10,6 +10,7 @@ export const getChat = async () => {
         const { data: { data } } = await axiosInstance.get(CHAT_API_ENDPOINT_STARTING + "fetchAllChat");
         return data;
     } catch (error) {
+        console.log("erroir")
         const axiosError = error as AxiosError;
         const errorMessage = (axiosError.response && axiosError.response.data)
             ? axiosError.response.data
