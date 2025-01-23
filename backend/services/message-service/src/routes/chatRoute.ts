@@ -6,7 +6,6 @@ import { chatValidators } from '../validator/chat.validator';
 const router = express.Router();
 const chatController = new ChatController();
 
-
 // access chat or create chat   
 router.post('/access', validate(chatValidators.accessChatOrCreateChat), chatController.accessChatOrCreateChat.bind(chatController));
 
