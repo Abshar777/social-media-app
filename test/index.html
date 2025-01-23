@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.IO Example</title>
+  </head>
+  <body>
+    <h1>Socket.IO Client</h1>
+    <input type="text" id="message" placeholder="Type a message" />
+    <button id="sendButton">Send</button>
+    <div id="output"></div>
+
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+      const user_id = "67473957cbab08e24f164837";
+      const user2 = "6791c30cc4bdb8a3b03450a0";
+      const socket = io("http://localhost:3003/", {
+        query: `userID=${user_id}`,
+      }); // Connect to the server
+
+      const sendButton = document.getElementById("sendButton");
+      const messageInput = document.getElementById("message");
+      const outputDiv = document.getElementById("output");
+
+      
+
+      // Send a message to the server
+      sendButton.addEventListener("click", () => {
+        const message = messageInput.value;
+        socket.emit("newNotification", {
+            id:"6791ceec4d2afdda7d5de503",
+            user_id
+        });
+        messageInput.value = "";
+      });
+
+      // Receive a message from the server
+      socket.on("new_notification", (data) => {
+        console.log('ejjjejej',data)
+        const newMessage = document.createElement("p");
+        newMessage.textContent = data.message;
+        outputDiv.appendChild(newMessage);
+      });
+
+      socket.on("joined",(data)=>{
+        console.log('joined',data)
+        const newMessage = document.createElement("p");
+        newMessage.textContent = data.message;
+        outputDiv.appendChild(newMessage);
+      })
+    </script>
+  </body>
+</html>

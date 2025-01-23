@@ -1,14 +1,14 @@
 import { NextFunction, Request, Response } from "express";
-import { Model } from "mongoose";
 import { AuthRequest } from "../types/api";
-import messageSchema from "../model/messageSchema";
+import MessageRepository from "../repository/messageRepository";
 import { IMessage } from "../types/interface/IMessage";
+import messageSchema from "../model/messageSchema";
 
 class MessageController {
-  private MessageModel: Model<IMessage>;
+  private messageRepository: MessageRepository;
   
   constructor() {
-    this.MessageModel = messageSchema;
+    this.messageRepository = new MessageRepository(messageSchema);
   }
 
   // @desc    send message
@@ -17,7 +17,7 @@ class MessageController {
   async sendMessage(req: AuthRequest, res: Response, next: NextFunction) {
     try {
       const { sender, text, file, type, chatId } = req.body;
-      const message = await this.MessageModel.create({ sender, text, file, type, chatId });
+      const message = await this.messageRepository.createMessage({ sender, text, file, type, chatId });
       res.status(200).json({ message: "succefully send message", data: message });
     } catch (error) {
       next(error);
@@ -31,7 +31,7 @@ class MessageController {
     try {
       const { chatId } = req.query;
       if (!chatId) return res.status(400).json({ message: "chatId is required" });
-      const messages = await this.MessageModel.find({ chatId }).populate("sender", "-password").sort({ createdAt: -1 });
+      const messages = await this.messageRepository.getMessagesByChatId(chatId as string);
       res.status(200).json({ message: "succefully get all message", data: messages });
     } catch (error) {
       next(error);
@@ -45,7 +45,7 @@ class MessageController {
     try {
       const { id } = req.query;
       if (!id) return res.status(400).json({ message: "id is required" });
-      await this.MessageModel.findByIdAndUpdate(id, { deletedBy: req.user });
+      await this.messageRepository.deleteMessage(id as string, req.user as string);
       res.status(200).json({ message: "succefully delete message" });
     } catch (error) {
       next(error);
@@ -59,7 +59,7 @@ class MessageController {
     try {
       const { id } = req.query;
       if (!id) return res.status(400).json({ message: "id is required" });
-      await this.MessageModel.findByIdAndUpdate(id, { seenBy: req.user });
+      await this.messageRepository.markMessageAsSeen(id as string, req.user as string);
       res.status(200).json({ message: "succefully read message" });
     } catch (error) {
       next(error);
@@ -73,13 +73,13 @@ class MessageController {
     try {
       const { chatId } = req.query;
       if (!chatId) return res.status(400).json({ message: "chatId is required" });
-      const messages = await this.MessageModel.find({ chatId, type: { $in: ["Video", "Image","Document"] } }).populate("sender", "-password");
-      res.status(200).json({ message: "succefully get all media message", data: messages });
+      const messages = await this.messageRepository.getMessagesByChatId(chatId as string, 1, 50);
+      const mediaMessages = messages.filter(message => ["Video", "Image", "Document"].includes(message.type));
+      res.status(200).json({ message: "succefully get all media message", data: mediaMessages });
     } catch (error) {
       next(error);
     }
   } 
-
 
 }
 

@@ -1,5 +1,6 @@
 import { Model } from "mongoose";
 import { IMessage } from "../types/interface/IMessage";
+import { IChat } from "../types/interface/IChat";
 
 class MessageRepository {
     private messageModel: Model<IMessage>;
@@ -14,9 +15,9 @@ class MessageRepository {
 
     async getMessagesByChatId(chatId: string, page: number = 1, limit: number = 50): Promise<IMessage[]> {
         return await this.messageModel
-            .find({ 
+            .find({
                 chatId,
-                isDeleted: false 
+                isDeleted: false
             })
             .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
@@ -38,19 +39,22 @@ class MessageRepository {
         return await this.messageModel
             .findByIdAndUpdate(
                 messageId,
-                { 
+                {
                     $addToSet: { deletedBy: userId },
-                    isDeleted: true 
+                    isDeleted: true
                 },
                 { new: true }
             );
     }
 
-    async getMessageById(messageId: string): Promise<IMessage | null> {
+    async getMessageById(messageId: string) {
         return await this.messageModel
             .findById(messageId)
+            .populate("chatId")
             .populate('sender', 'name img')
-            .populate('seenBy', 'name img');
+            .populate('seenBy', 'name img') as IMessage & {
+                chatId: { users: string[] }
+            }
     }
 
     async updateMessage(messageId: string, updateData: Partial<IMessage>): Promise<IMessage | null> {

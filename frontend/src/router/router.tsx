@@ -5,6 +5,7 @@ import Home from "@/pages/client/home";
 import NotFound from "@/pages/error/notFound";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import ProtectedRoute from "./protectedRoute";
+import File from "@/pages/file";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         element: <SignUp />,
       },
     ],
+  },
+  {
+    element:<File/>,
+    path:"file"
   },
   {
     element: <ProtectedRoute />,
