@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { AuthRequest } from "../types/api";
 import MessageRepository from "../repository/messageRepository";
-import { IMessage } from "../types/interface/IMessage";
 import messageSchema from "../model/messageSchema";
 
 class MessageController {
