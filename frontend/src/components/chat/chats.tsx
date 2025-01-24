@@ -5,9 +5,11 @@ import { getChat } from "@/api/chat";
 import { useQueryData } from "@/hooks/useQuery";
 import { Button } from "@nextui-org/button";
 import { motion } from "framer-motion";
-import { lazy,Suspense } from "react";
+import { lazy, Suspense } from "react";
+import Modal from "../global/modal";
+import SerachUsers from "../global/searchUsers";
 
-const ChatAnimtion=lazy(()=>import("@/components/lottie/chatLotiie"))
+const ChatAnimtion = lazy(() => import("@/components/lottie/chatLotiie"));
 
 const Chats = () => {
   const {
@@ -41,19 +43,31 @@ const Chats = () => {
         ))}
       {chats?.length == 0 && (
         <div className="w-full h-full flex-col gap-2 flex items-center justify-center">
-        <Suspense fallback={<div className="h-[7rem]"></div>}>
-          <ChatAnimtion/>
-        </Suspense>
-          <Button
-            isIconOnly
-            radius="full"
-            color="primary"
-            variant="ghost"
-            className="group bg-gray-600/10 "
+          <Suspense fallback={<div className="h-[7rem]"></div>}>
+            <ChatAnimtion />
+          </Suspense>
+          <Modal
+          title="start chat with some one"
+          description="start chat with friends and more socielaze with, and create new friends"
+          content="start new chat"
+            trigger={
+              <Button
+                isIconOnly
+                radius="full"
+                color="primary"
+                variant="ghost"
+                className="group bg-gray-600/10 "
+              >
+                <motion.i className="ri-add-line "></motion.i>
+              </Button>
+            }
           >
-            <motion.i className="ri-add-line "></motion.i>
-          </Button>
-          <p className="text-violet-600/70 ">start <span className="text-white">chat</span> with <span className="text-white">friends</span></p>
+            <SerachUsers/>
+          </Modal>
+          <p className="text-violet-600/70 ">
+            start <span className="text-white">chat</span> with{" "}
+            <span className="text-white">friends</span>
+          </p>
         </div>
       )}
     </div>

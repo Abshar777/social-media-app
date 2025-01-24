@@ -121,38 +121,38 @@ class UserController {
   //@desc    refresh token
   //@method  POST
   async refreshTokenGet(req: AuthRequest, res: Response, next: NextFunction) {
-   try {
-    const refreshToken = req.cookies?.__refreshToken;
+    try {
+      const refreshToken = req.cookies?.__refreshToken;
 
-    if (!refreshToken) {
-      console.log('no token')
-      res.status(400);
-      throw new Error("unothriezed user and user dont have token")
-    } else {
-      const jwt = new Jwt();
-      const {userId} = jwt.verifyRefreshToken(refreshToken) as JwtPayload;
-      if (!userId) {
+      if (!refreshToken) {
+        console.log('no token')
         res.status(400);
-        throw new Error("user not found");
+        throw new Error("unothriezed user and user dont have token")
+      } else {
+        const jwt = new Jwt();
+        const { userId } = jwt.verifyRefreshToken(refreshToken) as JwtPayload;
+        if (!userId) {
+          res.status(400);
+          throw new Error("user not found");
+        }
+        const user = await userSchema.findById(userId);
+        if (!user || user.isBlock) {
+          console.log('user not found or user is Blocked');
+          res.status(400);
+          throw new Error("user not found or user is Blocked");
+        }
+        const token = this.Jwt.generateAccessToken(user._id as string);
+        req.user = userId as string;
+        res.cookie("__refreshToken", refreshToken, {
+          httpOnly: true,
+          maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+          path: "/",
+        });
+        res.status(200).json({ token, message: "succesfully created token" })
       }
-      const user = await userSchema.findById(userId);
-      if (!user || user.isBlock) {
-        console.log('user not found or user is Blocked');
-        res.status(400);
-        throw new Error("user not found or user is Blocked");
-      }
-      const token=this.Jwt.generateAccessToken(user._id as string);
-      req.user = userId as string;
-      res.cookie("__refreshToken", refreshToken, {
-        httpOnly: true,
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
-        path: "/",
-      });
-      res.status(200).json({token,message:"succesfully created token"})
+    } catch (error) {
+      next(error);
     }
-   } catch (error) {
-    next(error);
-   }
   }
 
   //@desc    get all users
@@ -161,6 +161,34 @@ class UserController {
     try {
       const users = await userSchema.find().select('-password'); // Exclude password from the response
       res.status(200).json({ message: "Successfully retrieved all users", data: users });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  //@desc    Search user
+  //@body    text
+  //@method  GET
+  async searchUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { text } = req.query;
+
+      if (!text || typeof text !== 'string') {
+        return res.status(400).json({ message: "Invalid search text" });
+      }
+
+      const users = await this.UserModel.find({
+        $or: [
+          { email: { $regex: text, $options: 'i' } },
+          { name: { $regex: text, $options: 'i' } }
+        ]
+      });
+
+      if (users.length === 0) {
+        return res.status(404).json({ message: "No users found" });
+      }
+
+      res.status(200).json({ message: "Users found", data: users });
     } catch (error) {
       next(error);
     }
