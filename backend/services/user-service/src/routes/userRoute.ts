@@ -24,6 +24,7 @@ Router.post("/token",refreshTokenMidllWare,controller.refreshTokenGet.bind(contr
 Router.post("/searchUser",authMiddilware,controller.searchUser.bind(controller));
 
 
+
 // get all users
 // wire up : with admin middileware , now is for testing poropuse
 Router.route("/users").get( controller.getAllUsers.bind(controller));

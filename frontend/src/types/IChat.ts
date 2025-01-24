@@ -2,11 +2,17 @@ import { IUser } from "./IUser";
 
 export interface IChat {
   _id: string;
-  members: IUser[];
+  users: IUser[];
   latestMessageCount: number;
   chatName: string | null;
   isGroupChat: boolean;
-  latestMessage: string | null;
+  latestMessage: {
+    text:string,
+    createdAt:Date,
+    updatedAt:Date,
+    file?:Date,
+    
+  };
   groupAdmins: IUser[];
   groupImage: string | null;
   createdAt: string;

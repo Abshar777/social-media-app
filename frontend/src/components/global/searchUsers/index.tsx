@@ -1,22 +1,25 @@
 import { Skeleton } from "@/components/ui/skeleton";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useSearch } from "@/hooks/useSearch";
 import SearchUser from "./searchUser";
 import { useState } from "react";
 import { motion } from "framer-motion";
 
 const SerachUsers = () => {
-  const { onSearch, onUsers, isLoading, query } = useSearch(
+  const { onSearch, onUsers, isLoading, query, clearSerach } = useSearch(
     "get-users",
     "USERS"
   );
   const [focus, setfocus] = useState(true);
 
   return (
-    <div className="flex flex-col gap-y-5">
+    <div className="flex flex-col gap-y-4">
       <div className="w-full h-[3rem] flex items-center ">
         {focus ? (
           <motion.i
+            {...(focus && {
+              onClick: clearSerach,
+            })}
             initial={{ rotate: "90deg" }}
             animate={{ rotate: "0deg" }}
             exit={{ rotate: "180deg" }}
@@ -24,10 +27,11 @@ const SerachUsers = () => {
           ></motion.i>
         ) : (
           <motion.i
+            onClick={clearSerach}
             exit={{ rotate: "180deg" }}
             animate={{ rotate: "180deg" }}
             initial={{ rotate: "180deg" }}
-            className="ri-arrow-right-line absolute left-[2rem] scale-[-1]  "
+            className="ri-arrow-right-line active:scale-[.9] cursor-pointer absolute left-[2rem] scale-[-1]  "
           ></motion.i>
         )}
 
@@ -42,7 +46,7 @@ const SerachUsers = () => {
           value={query}
           type="text"
           placeholder="Search"
-          className="w-full outline-0 rounded-lg py-[.2rem] px-[3rem] bg-zinc-700"
+          className="w-full outline-0 rounded-lg py-[.2rem] px-[3rem] bg-zinc-800/80"
         />
       </div>
 
@@ -55,8 +59,12 @@ const SerachUsers = () => {
       ) : !onUsers ? (
         <p className="text-center text-sm text-[#a4a4a4]">No Users Found</p>
       ) : (
-        <ScrollArea className="max-h-[10rem]">
-          <div className="flex flex-col gap-y-2">
+        <ScrollArea className="max-h-[15rem] -mt-1">
+          <ScrollBar
+            className="bg-transparent border-0 border-transparent"
+            data-state="hidden"
+          />
+          <div className="flex flex-col gap-y-3 ">
             {onUsers.map((user) => (
               <SearchUser key={user._id} user={user} />
             ))}

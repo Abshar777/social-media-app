@@ -169,19 +169,20 @@ class UserController {
   //@desc    Search user
   //@body    text
   //@method  GET
-  async searchUser(req: Request, res: Response, next: NextFunction) {
+  async searchUser(req: AuthRequest, res: Response, next: NextFunction) {
     try {
-      const { text } = req.query;
+      const { text } = req.body;
+      console.log(text, typeof text, !text, typeof text !== 'string', req.body);
 
-      if (!text || typeof text !== 'string') {
+      if (typeof text !== 'string') {
         return res.status(400).json({ message: "Invalid search text" });
       }
-
       const users = await this.UserModel.find({
         $or: [
           { email: { $regex: text, $options: 'i' } },
           { name: { $regex: text, $options: 'i' } }
-        ]
+        ],
+        _id: { $ne: req.user as string }
       });
 
       if (users.length === 0) {

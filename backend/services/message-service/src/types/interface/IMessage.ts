@@ -4,7 +4,7 @@ export interface IMessage extends Document {
     sender: Types.ObjectId;
     text?: string;
     file?: string;
-    type: "Text" | "Media" | "Document" | "Link" | "Replay";
+    type: "Text" | "Media" | "Document" | "Link" | "Replay" | "Info";
     chatId: Types.ObjectId;
     seenBy: Types.ObjectId[];
     createdAt?: Date;

@@ -1,6 +1,7 @@
 import { AnimatePresence, motion, useAnimationControls } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
 
 interface props {
   name: string;
@@ -21,7 +22,7 @@ const Container = ({
 }: props) => {
   const [active, setActive] = useState(false);
   const arrowControls = useAnimationControls();
-  const colors = ["cyan", "red", "violet", "zinc", "rose", "sky"];
+  const colors = ["#00BFFF", "#FF4500", "#8A2BE2", "#A9A9A9", "#FF69B4", "#87CEEB"];
   useEffect(() => {
     if (latestMessageCount !== 0) setActive(true);
     else setActive(false);
@@ -48,6 +49,7 @@ const Container = ({
       {/* </button> */}
       <div className="flex items-center gap-5">
         <div
+        style={{backgroundColor:colors[Math.floor(Math.random() * colors.length)]}}
           className={`circle h-[2.8rem] overflow-hidden flex items-center justify-center w-[2.8rem] rounded-full bg-${
             colors[Math.floor(Math.random() * colors.length)]
           }-500`}
@@ -55,7 +57,7 @@ const Container = ({
           {image ? (
             <Avatar className="w-full h-full p-0">
               <AvatarImage className="w-full h-full object-cover" src={image} />
-              <AvatarFallback>{name.split("").splice(0, 2)}</AvatarFallback>
+              <AvatarFallback >{name.split("").splice(0, 2)}</AvatarFallback>
             </Avatar>
           ) : (
             <h1>{name.split("").splice(0, 2)}</h1>
@@ -103,7 +105,7 @@ const Container = ({
             variants={{
               hover: { marginRight: 0, opacity: 1 },
               initial: {
-                marginRight: active ? -40 : -20,
+                marginRight: active ? -50 : -20,
                 opacity: active ? 1 : 0,
               },
             }}

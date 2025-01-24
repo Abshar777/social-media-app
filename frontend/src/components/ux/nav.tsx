@@ -51,6 +51,12 @@ const Nav = () => {
     };
   }, []);
   useEffect(() => {
+    const interval = setInterval(() => {
+      icon.start("seco"); 
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [icon]); 
+  useEffect(() => {
     icon.start("seco");
   }, [show]);
   const colors = [

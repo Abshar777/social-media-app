@@ -2,6 +2,7 @@ import express from 'express';
 import ChatController from '../controller/chatController';
 import { validate } from '../middleware/validate.Middleware';
 import { chatValidators } from '../validator/chat.validator';
+import authMiddilware from '../middleware/auth.Middleware';
 
 const router = express.Router();
 const chatController = new ChatController();

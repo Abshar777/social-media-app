@@ -1,9 +1,12 @@
-import React from "react";
 import { Button } from "@nextui-org/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "lucide-react";
 import { IUser } from "@/types/IUser";
-// import { useMutationData } from "@/hooks/useMutation";
+import { motion } from "framer-motion";
+import { useMutationData } from "@/hooks/useMutationData";
+import { accesOrCreateChat } from "@/api/chat";
+import { DialogClose } from "@/components/ui/dialog";
+import { LegacyRef, useEffect, useRef } from "react";
 // import { inviteMembers } from "@/actions/user";
 
 interface Props {
@@ -11,13 +14,18 @@ interface Props {
 }
 
 const SearchUser = ({ user }: Props) => {
-  //   const { mutate, isPending } = useMutationData(
-  //     ["invite-member"],
-  //     (data: { recieverId: string; email: string }) =>
-  //       inviteMembers(workspaceId, data.recieverId, data.email)
-  //   );
+  const { mutate, isPending,isSuccess } = useMutationData(
+    ["create-chats"],
+    (id: string) => accesOrCreateChat(id),
+    "chats"
+  );
+  const ref=useRef<LegacyRef<HTMLButtonElement>|any>(null)
+  useEffect(()=>{
+    if(isSuccess) ref.current.click()
+  },[isSuccess])
   return (
-    <div className="flex gap-x-3 hover:bg-primary-foreground cursor-pointer transition-all duration-[.3] ease-in items-center border-[1px] w-full p-2 rounded-xl">
+    <div className="flex gap-x-3 hover:bg-zinc-900/70 bg-zinc-900 hover:border-transparent cursor-pointer transition-all duration-[.3] ease-in-out items-center  w-full p-3 hover:px-4 rounded-xl">
+      <DialogClose ref={ref}/>
       <Avatar>
         <AvatarImage src={user.img as string} />
         <AvatarFallback>
@@ -32,13 +40,13 @@ const SearchUser = ({ user }: Props) => {
       </div>
       <div className="flex-1 flex justify-end items-center">
         <Button
-          //   onClick={() => mutate({ recieverId: user.id, email: user.email })}
-          // variant={"solid"}
-          isLoading={false}
+          onClick={() => mutate(user._id)}
+          isLoading={isPending}
           color="primary"
-          className="px-7 border-t  active:scale-95 transition-all duration-[.3] ease-in  text-xs"
+          className="px-7 border-t group  active:scale-95  transition-all duration-[.3] ease-in  text-xs"
         >
           Chat
+          <motion.i className="ri-message-3-fill transition-all ease-in duration-[.3] group-hover:scale-x-[-1] text-lg"></motion.i>
         </Button>
       </div>
     </div>

@@ -6,7 +6,7 @@ const messageSchema = new Schema<IMessage>(
         sender: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
         text: { type: String, trim: true },
         file: { type: String },
-        type: { type: String, enum: ["Text", "Video", "Image", "Document", "Link", "Replay"], },
+        type: { type: String, enum: ["Text", "Video", "Image", "Document", "Link", "Replay","Info"], },
         chatId: { type: mongoose.Schema.Types.ObjectId, ref: "Chat" },
         seenBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
         deletedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],

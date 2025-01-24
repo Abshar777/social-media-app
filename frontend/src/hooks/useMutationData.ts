@@ -14,14 +14,15 @@ export const useMutationData = (mutationKey: MutationKey,
             toast.error(error.message?.toString())
         },
         onSuccess(data) {
+            console.log(data)
             // if (queryKey) client.invalidateQueries({ queryKey: [queryKey] as unknown as readonly unknown[] })
             if (onSuccess) onSuccess(data);
-            if (data.status === 201) return toast.success(data.message)
-            if (data.status === 200) return ;
-            toast.error(data.message)
+            if (data.Axios_status === 201) return toast.success(data.Axios_message)
+            if (data.Axios_status === 200) return ;
+            toast.error(data.Axios_message)
         },
         onSettled: async () => {
-            // console.log("onSettled")
+            console.log("onSettled")
             return await client.invalidateQueries({ queryKey: [queryKey],exact:true })
         }
     })

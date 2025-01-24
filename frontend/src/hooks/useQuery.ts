@@ -10,11 +10,11 @@ export const useQueryData = <T>(
     queryFn: QueryFunction,
     options?: Partial<UseQueryOptions>
 ) => {
-    const { data, isLoading, isFetched, refetch, isFetching } = useQuery({
+    const { data, isLoading, isFetched, refetch, isFetching,isError } = useQuery({
         queryKey,
         queryFn,
         enabled:true,
         ...options
     });
-    return { data: data as T, isLoading, isFetched, refetch, isFetching };
+    return { data: data as T, isLoading, isFetched, refetch, isFetching,isError };
 };

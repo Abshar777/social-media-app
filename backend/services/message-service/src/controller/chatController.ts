@@ -1,11 +1,12 @@
 import { NextFunction, Response } from "express";
 import userSchema, { UserDocument } from "../model/userSchema";
-import { Model } from "mongoose";
+import { Model, ObjectId, Types } from "mongoose";
 import { AuthRequest } from "../types/api";
 import { IChat } from "../types/interface/IChat";
 import chatSchema from "../model/chatSchema";
 import { IMessage } from "../types/interface/IMessage";
 import messageSchema from "../model/messageSchema";
+import IUser from "../types/interface/IUser";
 
 
 class ChatController {
@@ -34,8 +35,12 @@ class ChatController {
             ],
         }).populate("users", "name img _id")
         if (chat) return res.status(200).json({ message: "succefully get availble chat", data: chat })
-        const newChat =  await (await this.ChatModel.create({ chatName: "UNTITLED", users: [req.user, id] })).populate("users", "-password");
-        res.status(201).json({ message: "succefully create chat",data:newChat });
+        const newChat = await (await this.ChatModel.create({ chatName: "UNTITLED", users: [req.user, id] })).populate("users", "-password") as IChat & { users: IUser[] };
+        const msg = await this.messageModel.create({ chatId: newChat._id, type: "Info", sender: req.user, text: `${newChat.users[0]?.name} created this chat` })
+        newChat.latestMessage = msg._id as Types.ObjectId;
+        newChat.latestMessageCount = 1;
+        const data = await (await newChat.save()).populate("latestMessage")
+        res.status(201).json({ message: "succefully create chat", data });
     }
 
     // @desc    fetch all chat 
@@ -183,8 +188,8 @@ class ChatController {
             next(error);
         }
     }
-    
-    
+
+
     // @desc serach chat by name or email or user name 
     // @method  GET
     // @body    name:chatName
@@ -195,7 +200,7 @@ class ChatController {
             const chats = await this.ChatModel.find({
                 $or: [{ chatName: { $regex: name, $options: 'i' } }, { users: { $elemMatch: { $eq: name } } }]
             }).populate("users", "-password").populate("latestMessage")
-            res.status(200).json({ message: "succefully search chat", data: chats })    
+            res.status(200).json({ message: "succefully search chat", data: chats })
         } catch (error) {
             next(error);
         }
