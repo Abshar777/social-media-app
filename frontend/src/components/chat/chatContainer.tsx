@@ -106,7 +106,7 @@ const Container = ({
               hover: { marginRight: 0, opacity: 1 },
               initial: {
                 marginRight: active ? -50 : -20,
-                opacity: active ? 1 : 0,
+                opacity: !active ? 1 : 0,
               },
             }}
             className="ri-arrow-down-s-line"

@@ -33,10 +33,7 @@ useEffect(()=>{
       <div className=" w-full md:py-1  md:mb-0 mb-2  py-5 border-t-[1px] ">
         <ChatInput/>
       </div>
-      {/* <button onClick={()=>{
-        setArr([...arr,Math.floor(Math.random()*10)])
-    }} className="btn rounded-md p-[.1rem] mb-2 absolute bottom-0 bg-primary">create</button>
-    */}
+    
     </div>
   );
 };

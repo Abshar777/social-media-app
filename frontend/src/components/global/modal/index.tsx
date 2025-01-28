@@ -40,7 +40,7 @@ const Modal = ({ children, description, title, trigger, className }: Props) => {
       </TooltipProvider>
 
       <DialogOverlay className="bg-white/15 backdrop-blur-md" />
-      <DialogContent className=" bg-neutral-900/40 rounded-xl">
+      <DialogContent className=" bg-[#171717] rounded-xl">
         <DialogHeader>
           <DialogTitle className="font-normal">{title}</DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground/50">

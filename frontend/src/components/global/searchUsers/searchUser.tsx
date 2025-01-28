@@ -24,7 +24,7 @@ const SearchUser = ({ user }: Props) => {
     if(isSuccess) ref.current.click()
   },[isSuccess])
   return (
-    <div className="flex gap-x-3 hover:bg-zinc-900/70 bg-zinc-900 hover:border-transparent cursor-pointer transition-all duration-[.3] ease-in-out items-center  w-full p-3 hover:px-4 rounded-xl">
+    <div className="flex gap-x-3 hover:bg-zinc-950/50 bg-zinc-950/30 hover:border-transparent cursor-pointer transition-all duration-[.3] ease-in-out items-center  w-full p-3 hover:px-4 rounded-xl">
       <DialogClose ref={ref}/>
       <Avatar>
         <AvatarImage src={user.img as string} />
