@@ -1,8 +1,7 @@
-import { motion, useAnimationControls  } from "framer-motion";
+import { motion  } from "framer-motion";
 import ConaverstationLayout from "../../components/chat/conaverstationLayout";
 import Nav from "../../components/ux/nav";
 import SideBar from "../../components/ux/sideBar";
-import { useEffect } from "react";
 
 const Home = () => {
  

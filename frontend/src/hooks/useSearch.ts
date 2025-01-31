@@ -1,5 +1,4 @@
 import { ChangeEvent, useState } from "react";
-import { useQuery } from "@tanstack/react-query"; 
 import { useDebounce } from "@/hooks/useDebounce"; 
 import { searchUser } from "@/api/chat";
 import { IUser } from "@/types/IUser";

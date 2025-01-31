@@ -22,6 +22,7 @@ class MessageRepository {
             .sort({ createdAt: -1 })
             .skip((page - 1) * limit)
             .limit(limit)
+            .populate("chatId")
             .populate('sender', 'name img')
             .populate('seenBy', 'name img');
     }

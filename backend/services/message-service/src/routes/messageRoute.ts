@@ -15,7 +15,7 @@ router.post(
 
 // get all messages by chat ID
 router.get(
-  '/chat', 
+  '/getAllChat', 
   validate(messageValidators.getAllMessageByChatId), 
   messageController.getAllMessageByChatId.bind(messageController)
 );

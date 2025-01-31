@@ -13,7 +13,7 @@ export const useQueryData = <T>(
     const { data, isLoading, isFetched, refetch, isFetching,isError } = useQuery({
         queryKey,
         queryFn,
-        enabled:true,
+        enabled:options?.enabled?options?.enabled:true,
         ...options
     });
     return { data: data as T, isLoading, isFetched, refetch, isFetching,isError };
